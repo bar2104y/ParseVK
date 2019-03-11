@@ -1,5 +1,4 @@
 import re
-from pprint import pprint
 
 #Разовый поиск в строке
 def searchOnce(string):
