@@ -17,6 +17,8 @@ def searchOnce(string):
 			res = tmp[0][1]
 			return res
 
+
+# Перевод непустых строк в элементы массива до конца блока(---)
 def parseBlock():
 	line = ''
 	Arr = []
@@ -91,33 +93,8 @@ def parseMessages():
 				if line == stopString:
 					flag = True
 		Arr.append(tmp)
-	print('all')
 	return Arr
 		
-		
-
-# def parseLoginHistory()link, name:
-# 	line = ''
-# 	LHArr = []
-# 	while line != '---':
-# 		line = inputFile.readline()
-# 		if line != '\n':
-# 			line = line.replace('\n', '')
-# 			LHArr.append(line)
-# 	del LHArr[len(LHArr)-1]
-# 	return LHArr
-
-# def parseNameHistory():
-# 	line = ''
-# 	LHArr = []
-# 	while line != '---':
-# 		line = inputFile.readline()
-# 		if line != '\n':
-# 			line = line.replace('\n', '')
-# 			LHArr.append(line)
-# 	del LHArr[len(LHArr)-1]
-# 	return LHArr
-
 
 path = 'log.txt'
 try:
@@ -126,57 +103,45 @@ try:
 	line = inputFile.readline()
 	vkID = re.search(r'(vk.com\/id)(.*?)( \()', line)
 	vkID = vkID.group(2)
-	print('ВК id:',vkID)
 
 	tmp = re.findall(r'(\()(.*?)(\))', line)
-	print(tmp)
+
 	personalLink = tmp[0][1]
-	print("Личная ссылка:", personalLink)
-
 	name = tmp[1][1]
-	print("Имя:", name)
 
+	# Общая информация
 	email = searchOnce('(Email: )(.*)')
 	regDate = searchOnce('(Регистрация: )(.*)')
 	lastLogin = searchOnce('(Последнее посещение: )(.*)')
 	lastIP = searchOnce('(IP-адрес последнего посещения: )(.*)')
 	phone = searchOnce('(Телефон: )(.*)')
 
-	#print(email)
-	#print(regDate)
-	#print(lastLogin)
-	#print(lastIP)
-
+	# Костыль
 	inputFile.readline()
+	# История авторизации
 	LoginHistory = parseBlock()
-	print(LoginHistory)
 
+	# Костыли
 	skipLines()
 	skipLines()
 
-
-	NameHistory = parseBlock()
-	print(NameHistory)
-
+	# парсинг в массивы
+	nameHistory = parseBlock()
 	blockHistory = parseBlock()
-	print(blockHistory)
-
 	supportHistory = parseBlock()
-	print(supportHistory)
-
 	recoveryHistory = parseBlock()
-	print(recoveryHistory)
 
-	print(parseFriends())
+	friends = parseFriends()
 
+	# Костыль
 	inputFile.readline()
 
-	print(parseMessages())
-
-	
+	# Массив с сообщениями
+	# [[direction(0 in; 1 out), userlink, date, message],
+	#  [direction(0 in; 1 out), userlink, date, message]]
+	messages = parseMessages()
 
 except IOError:
 	print("Ошибка работы с файлом!")
 finally:
 	inputFile.close()
-
