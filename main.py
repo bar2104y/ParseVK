@@ -52,6 +52,43 @@ def parseFriends():
 	del Arr[len(Arr)-1]
 	return Arr
 
+def parseMessages():
+	global vkID
+	line = ''
+	stopString = 'Сообщения, оставленные на стене пользователя https://vk.com/id'+vkID+':\n'
+	while line != stopString:
+		while line != 'От кого:\n' and line != 'Кому:\n':
+			line = inputFile.readline()
+		# message info 
+		# [direction(0 in; 1 out), userlink, date, message]
+		tmp = []
+		if line == 'От кого:\n':
+			tmp.append(0)
+		else:
+			tmp.append(1)
+
+		line = inputFile.readline()
+		
+		if re.findall(r'Пользователь',line) == []:
+			userlink = re.search(r'(https://vk.com/id)(.*)?', line)
+			userlink = str(userlink.group()).replace(')', '')
+			#print(userlink)
+			tmp.append(userlink)
+			tmp.append(str(inputFile.readline()).replace('\n', ''))
+
+			mes = ''
+			while line != '\n':
+				line = inputFile.readline()
+				mes += line
+			
+			tmp.append(mes.replace('\n', ''))
+
+			print(tmp)
+			print()
+			print()
+
+		
+		
 
 # def parseLoginHistory()link, name:
 # 	line = ''
@@ -125,6 +162,10 @@ try:
 	print(recoveryHistory)
 
 	print(parseFriends())
+
+	inputFile.readline()
+
+	parseMessages()
 
 
 	
