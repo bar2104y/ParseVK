@@ -107,7 +107,7 @@ try:
 	tmp = re.findall(r'(\()(.*?)(\))', line)
 
 	personalLink = tmp[0][1]
-	name = tmp[1][1]
+	name = str(tmp[1][1])
 
 	# Общая информация
 	email = searchOnce('(Email: )(.*)')
@@ -141,7 +141,40 @@ try:
 	#  [direction(0 in; 1 out), userlink, date, message]]
 	messages = parseMessages()
 
+	# Разбор информации
+
+	html = '''
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8" />
+	<title>''' + name + ''' - данные пользователя</title>
+	</head>
+	<body>
+	<h4>Powered by <a href="https://github.com/bar2104y">bar2104</a> </h4>
+	<p>Данные пользователя <a href = "https://vk.com/id''' + vkID +'''">''' + name + '''</a></p>
+	<ul>
+		<li>ВК ID:               ''' + vkID + '''</li>
+		<li>Почта:               ''' + email + '''</li>
+		<li>Телефон:             ''' + phone + '''</li>
+		<li>Дата регистрации:    ''' + regDate + '''</li>
+		<li>Последнее посещение: ''' + lastLogin + '''</li>
+		<li>Последний IP:        ''' + lastIP + '''</li>
+	</ul>
+	'''
+	
+	
+	html += '''
+	</body>
+	</html>
+	'''
+
+	outputFile = open('index.html', 'w')
+	outputFile.write(html)
+	outputFile.close()
+
 except IOError:
 	print("Ошибка работы с файлом!")
 finally:
 	inputFile.close()
+	print('Работа завершена')
