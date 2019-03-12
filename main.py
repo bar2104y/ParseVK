@@ -40,12 +40,9 @@ def parseFriends():
 		if line != '\n':
 			line = line.replace('\n', '')
 			tmp = line.split(' ')
-			#tmp[1].split('(')
-			#tmp[2].split(')')
 			Arr.append(tmp)
 	del Arr[len(Arr)-1]
 	for t in Arr:
-		print(t)
 		t[1] = t[1].replace('(', '')
 		t[2] = t[2].replace(')', '')
 
