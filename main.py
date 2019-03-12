@@ -53,7 +53,10 @@ def parseMessages():
 	global vkID
 	line = ''
 	stopString = 'Сообщения, оставленные на стене пользователя https://vk.com/id'+vkID+':\n'
-	while line != stopString:
+	
+	Arr = []
+	flag = False
+	while line != stopString and not flag:
 		while line != 'От кого:\n' and line != 'Кому:\n':
 			line = inputFile.readline()
 		# message info 
@@ -66,7 +69,7 @@ def parseMessages():
 
 		line = inputFile.readline()
 		
-		if re.findall(r'Пользователь',line) == []:
+		if re.findall(r'Пользователь',line) != []:
 			userlink = re.search(r'(https://vk.com/id)(.*)?', line)
 			userlink = str(userlink.group()).replace(')', '')
 			#print(userlink)
@@ -76,14 +79,20 @@ def parseMessages():
 			mes = ''
 			while line != '\n':
 				line = inputFile.readline()
+				if line == stopString:
+					flag = True
+					line = ''
 				mes += line
 			
 			tmp.append(mes.replace('\n', ''))
-
-			print(tmp)
-			print()
-			print()
-
+		else:
+			while line != '\n':
+				line = inputFile.readline()
+				if line == stopString:
+					flag = True
+		Arr.append(tmp)
+	print('all')
+	return Arr
 		
 		
 
@@ -162,12 +171,7 @@ try:
 
 	inputFile.readline()
 
-	parseMessages()
-
-
-	
-
-
+	print(parseMessages())
 
 	
 
