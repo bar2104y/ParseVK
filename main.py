@@ -128,7 +128,10 @@ try:
 	# парсинг в массивы
 	nameHistory = parseBlock()
 	blockHistory = parseBlock()
+
 	supportHistory = parseBlock()
+	del supportHistory[0]
+	
 	recoveryHistory = parseBlock()
 
 	friends = parseFriends()
@@ -156,12 +159,28 @@ try:
 	<ul>
 		<li>ВК ID:               ''' + vkID + '''</li>
 		<li>Почта:               ''' + email + '''</li>
-		<li>Телефон:             ''' + phone + '''</li>
+		<li>Телефон:             +''' + phone + '''</li>
 		<li>Дата регистрации:    ''' + regDate + '''</li>
 		<li>Последнее посещение: ''' + lastLogin + '''</li>
 		<li>Последний IP:        ''' + lastIP + '''</li>
 	</ul>
+
+	<p>История последних посещений (информация актуальна на момент получения файла)</p>
+	<ul>
 	'''
+
+	for l in LoginHistory:
+		html += '<li>' + l + '</li>'
+	html += '</ul>'
+
+	html += '<p>История обращений в техническую поддержку</p><ul>'
+	for shi in supportHistory:
+		shit = shi.split(':')
+		html += '<li>' + shit[1] + ':' + shit[2] + ' -- ' + shit[0][2:] + '</li>'
+	html += '</ul>'
+
+
+
 	
 	
 	html += '''
