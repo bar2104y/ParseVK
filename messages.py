@@ -1,3 +1,4 @@
+import re
 # ------------------------------
 # -///////--///////////////-----
 # -///////----------------------
@@ -25,7 +26,15 @@ def parseDialogs(name, arr):
 #     </body>
 # </html>
 # '''
-    for message in arr:
-        print(message)
+	for message in arr:
+		print(message)
+		# Разбор информации о сообщении в переменные
+		direction = message[0]
+		id = re.search(r'(vk.com\/id)(.*)', message[1])
+		id = id.group(2)
+		tmp = str(message[2]).split(' в ')
+		date = tmp[0]
+		time = tmp[1]
+		message = message[3]
 
-
+		# перевод данных в html
