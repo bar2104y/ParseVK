@@ -15,7 +15,6 @@ def friendsToHTML(name, arr):
 	'''
 
 	for item in arr:
-		print(item[0])
 		id = re.search(r'(vk.com\/id)(.*)', item[0])
 		id = id.group(2)
 
