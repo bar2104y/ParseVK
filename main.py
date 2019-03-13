@@ -1,6 +1,7 @@
 import re
 from pprint import pprint
 from friends import friendsToHTML
+from messages import parseDialogs
 
 def skipLines():
 	line = ''
@@ -213,6 +214,8 @@ try:
 	outputFile = open('index.html', 'w')
 	outputFile.write(html)
 	outputFile.close()
+
+	parseDialogs(name, messages)
 
 except IOError:
 	print("Ошибка работы с файлом!")
