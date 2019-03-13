@@ -127,6 +127,7 @@ try:
 
 	# парсинг в массивы
 	nameHistory = parseBlock()
+	del nameHistory[0]
 	blockHistory = parseBlock()
 
 	supportHistory = parseBlock()
@@ -163,7 +164,7 @@ try:
 		<li>Дата регистрации:    ''' + regDate + '''</li>
 		<li>Последнее посещение: ''' + lastLogin + '''</li>
 		<li>Последний IP:        ''' + lastIP + '''</li>
-	</ul>
+	</ul>	
 
 	<p>История последних посещений (информация актуальна на момент получения файла)</p>
 	<ul>
@@ -179,8 +180,15 @@ try:
 		html += '<li>' + shit[1] + ':' + shit[2] + ' -- ' + shit[0][2:] + '</li>'
 	html += '</ul>'
 
+	del shi, shit
 
-
+	html += '<p>История смены имен</p><ul>'
+	for nhi in reversed(nameHistory):
+		tmp = nhi.split(': ')
+		time = tmp[0]
+		tmp = tmp[1].split(" --> ")
+		html += '<li>' + time + ' : ' + tmp[0] + ' ==> ' + tmp[1] + '</li>'
+	html += '</ul>'
 	
 	
 	html += '''
