@@ -1,5 +1,6 @@
 import re
 from pprint import pprint
+from friends import friendsToHTML
 
 def skipLines():
 	line = ''
@@ -201,6 +202,13 @@ try:
 	</body>
 	</html>
 	'''
+
+	# Создание html со списком друзей
+	friendsHTML = friendsToHTML(name, friends)
+
+	friendsFile = open('friends.html', 'w')
+	friendsFile.write(friendsHTML)
+	friendsFile.close()
 
 	outputFile = open('index.html', 'w')
 	outputFile.write(html)
