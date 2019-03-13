@@ -37,4 +37,4 @@ def parseDialogs(name, arr):
 		time = tmp[1]
 		message = message[3]
 
-		# перевод данных в html
+		# перевод данных в json
