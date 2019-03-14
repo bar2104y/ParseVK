@@ -27,8 +27,6 @@ def parseDialogs(name, arr):
 	dialogListData = []
 	for i in range(0, len(dialogListAdr)):
 		dialogListData.append([])
-	
-		
 
 	for message in arr:
 		direction = message[0]
@@ -50,4 +48,4 @@ def parseDialogs(name, arr):
 			dialogListData[i].append([direction, date,time, message])
 
 	# Список id людей, массив с сообщениями
-	return [dialogListAdr, dialogListData]
+	return dialogListAdr, dialogListData
