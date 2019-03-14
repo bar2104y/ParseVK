@@ -31,7 +31,6 @@ def parseDialogs(name, arr):
 
 	# Составление списка диалогов
 	for message in arr:
-		direction = message[0]
 		if len(message)>1:
 			id = re.search(r'(vk.com\/id)(.*)', message[1])
 			id = id.group(2)
@@ -43,9 +42,9 @@ def parseDialogs(name, arr):
 					break
 			if not f:
 				dialogListAdr.append(id)
-
-	dialogListData = []
 	
+	# Подготовка массива с сообщениями
+	dialogListData = []
 	for i in range(0, len(dialogListAdr)):
 		dialogListData.append([])
 	
@@ -53,6 +52,7 @@ def parseDialogs(name, arr):
 
 	for message in arr:
 		direction = message[0]
+		# Костыль
 		if len(message)>1:
 			id = re.search(r'(vk.com\/id)(.*)', message[1])
 			id = id.group(2)
@@ -61,13 +61,17 @@ def parseDialogs(name, arr):
 			time = tmp[1]
 			message = message[3]
 
-		#перекомпановка данн
-		
+			for i in range(0, len(dialogListAdr)):
+				if id == dialogListAdr[i]:
+					break
 
+			dialogListData[i].append([direction, date,time, message])
 
-		#messageData = [direction,date,time,message]
+	# Оладка 
+	for a in dialogListData:
+		print(a)
+		print()
+		print()
 
-		#dialogListData[dialogID].append(messageData)
-
-	return
+	return [dialogListAdr, dialogListData
 		
