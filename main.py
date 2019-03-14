@@ -215,7 +215,12 @@ try:
 	outputFile.write(html)
 	outputFile.close()
 
-	parseDialogs(name, messages)
+	messagesArd, messagesList = parseDialogs(name, messages)
+
+	for i in range(0, messagesArd):
+		filename = str(messagesArd[i]) + '.html'
+		for message in messagesList[i]:
+			htmlMessage = '<div></div>'
 
 except IOError:
 	print("Ошибка работы с файлом!")
