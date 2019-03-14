@@ -1,40 +1,19 @@
 import re
-# ------------------------------
-# -///////--///////////////-----
-# -///////----------------------
-# -///////--********------------
-# -///////---------- *********--
-# -///////-------------*******--
-# -///////--*****---------------
-# -///////--********------------
-# ----------************--------
-# -------------------*********--
-
-# def parseDialogs():
-# def parseURL():
 
 def parseDialogs(name, arr):
-# '''
-# <!DOCTYPE html>
-# <html>
-#     <head>
-#         <meta charset="utf-8" />
-#         <title>''' + name + ''' - друзья</title>
-#     </head>
-#     <body>
-#         <h4>Powered by <a href="https://github.com/bar2104y">bar2104</a> </h4>
-#     </body>
-# </html>
-# '''
 	#диалоги
 	dialogListAdr = []
 
 	# Составление списка диалогов
 	for message in arr:
+		# Костыль для отсеивания сообщений из чатов(не личных)
 		if len(message)>1:
+			# Получение id собеседника
 			id = re.search(r'(vk.com\/id)(.*)', message[1])
 			id = id.group(2)
 
+			# определяет уникальность собеседника
+			# Если встречается первый раз - записываем, иначе - игнорируем
 			f = False
 			for i in range(0, len(dialogListAdr)):
 				if dialogListAdr[i] == id:
@@ -44,6 +23,7 @@ def parseDialogs(name, arr):
 				dialogListAdr.append(id)
 	
 	# Подготовка массива с сообщениями
+	# Создание структуры массива
 	dialogListData = []
 	for i in range(0, len(dialogListAdr)):
 		dialogListData.append([])
@@ -52,7 +32,8 @@ def parseDialogs(name, arr):
 
 	for message in arr:
 		direction = message[0]
-		# Костыль
+		# Костыль, отсеивающий сообщения из чатов
+		# Надеюсь исправить потом
 		if len(message)>1:
 			id = re.search(r'(vk.com\/id)(.*)', message[1])
 			id = id.group(2)
@@ -65,13 +46,8 @@ def parseDialogs(name, arr):
 				if id == dialogListAdr[i]:
 					break
 
+			# Добавление сообщения в массив
 			dialogListData[i].append([direction, date,time, message])
 
-	# Оладка 
-	for a in dialogListData:
-		print(a)
-		print()
-		print()
-
-	return [dialogListAdr, dialogListData
-		
+	# Список id людей, массив с сообщениями
+	return [dialogListAdr, dialogListData]
