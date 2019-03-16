@@ -221,8 +221,6 @@ try:
 		filename = str(messagesArd[i]) + '.html'
 		htmlMessage = '<link rel="stylesheet" href="stylesheet.css">'
 		for message in messagesList[i]:
-			print(message)
-			print()
 			
 			if message[0] == 1:
 				direction = "mes_dir_out"
@@ -240,7 +238,7 @@ try:
 		f = open(filename, 'w')
 		f.write(htmlMessage)
 		f.close()
-
+		print('Файл', filename, 'успешно записан')
 
 except IOError:
 	print("Ошибка работы с файлом!")
