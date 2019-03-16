@@ -1,0 +1,11 @@
+#mes_dir_out{
+    text-align: right;
+    width: 50%;
+    margin: auto;
+}
+
+#mes_dir_in{
+    text-align: left;
+    width: 50%;
+    margin: auto;
+}
