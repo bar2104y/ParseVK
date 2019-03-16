@@ -217,10 +217,30 @@ try:
 
 	messagesArd, messagesList = parseDialogs(name, messages)
 
-	for i in range(0, messagesArd):
+	for i in range(0, len(messagesArd)):
 		filename = str(messagesArd[i]) + '.html'
+		htmlMessage = ''
 		for message in messagesList[i]:
-			htmlMessage = '<div></div>'
+			print(message)
+			print()
+			
+			if message[0] == 1:
+				direction = "mes_dir_out"
+			else:
+				direction = "mes_dir_in"
+
+			date = message[1]
+			time = message[2]
+			text = message[3]
+
+			htmlMessage += '<div id="' + direction + '''">
+			<p class="mes_time">''' + time + '''</p>
+			<p class="mes_text">''' + text + '</p></div>\n'''
+
+		f = open(filename, 'w')
+		f.write(htmlMessage)
+		f.close()
+
 
 except IOError:
 	print("Ошибка работы с файлом!")
