@@ -217,27 +217,34 @@ try:
 
 	messagesArd, messagesList = parseDialogs(name, messages)
 
+	# На каждого пльзователя своя страница.
+	# Название файла - id собеседника
+	# Сообщения оборачиваются в HTML каркас
 	for i in range(0, len(messagesArd)):
 		filename = str(messagesArd[i]) + '.html'
 		htmlMessage = '<link rel="stylesheet" href="stylesheet.css">'
 		for message in messagesList[i]:
 			
+			# Если сообщения входящее, то отображается слева
+			# Если исходящее - справа
 			if message[0] == 1:
 				direction = "mes_dir_out"
 			else:
 				direction = "mes_dir_in"
-
+			
+			# Бессмысленно, но я так хочу
 			date = message[1]
 			time = message[2]
 			text = message[3]
 
 			htmlMessage += '<div id="' + direction + '''">
-			<p class="mes_time">''' + time + '''</p>
-			<p class="mes_text">''' + text + '</p></div>\n'''
-
+			<p class="mes_time">''' + date + ' ' + time + '''</p>
+			<p class="mes_text">''' + text + '</p></div><hr>\n'''
+		# Запись файла
 		f = open(filename, 'w')
 		f.write(htmlMessage)
 		f.close()
+		# Сообщение в консоль
 		print('Файл', filename, 'успешно записан')
 
 except IOError:
