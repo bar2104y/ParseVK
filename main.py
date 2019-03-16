@@ -219,7 +219,7 @@ try:
 
 	for i in range(0, len(messagesArd)):
 		filename = str(messagesArd[i]) + '.html'
-		htmlMessage = ''
+		htmlMessage = '<link rel="stylesheet" href="stylesheet.css">'
 		for message in messagesList[i]:
 			print(message)
 			print()
