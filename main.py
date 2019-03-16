@@ -241,11 +241,16 @@ try:
 			<p class="mes_time">''' + date + ' ' + time + '''</p>
 			<p class="mes_text">''' + text + '</p></div><hr>\n'''
 		# Запись файла
-		f = open(filename, 'w')
-		f.write(htmlMessage)
-		f.close()
-		# Сообщение в консоль
-		print('Файл', filename, 'успешно записан')
+		try:
+			f = open(filename, 'w')
+			f.write(htmlMessage)
+			
+		except IOError:
+			print("Ошибка записи диалога")
+		finally:
+			# Сообщение в консоль
+			f.close()
+			print('Файл', filename, 'успешно записан')
 
 except IOError:
 	print("Ошибка работы с файлом!")
