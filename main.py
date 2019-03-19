@@ -252,6 +252,16 @@ try:
 			f.close()
 			print('Файл', filename, 'успешно записан')
 
+	mesListHtml = "<ul>"
+	for id in messagesArd:
+		mesListHtml += '<li><a href="'+id+'.html">' + id + '</a></li>'
+	mesListHtml += "</ul>"
+
+	f = open("messages.html", 'w')
+	f.write(mesListHtml)
+	f.close()
+	print('Файл со списком диалогов создан')
+
 except IOError:
 	print("Ошибка работы с файлом!")
 finally:
