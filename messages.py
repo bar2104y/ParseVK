@@ -1,7 +1,13 @@
 import re
 
-def parseAttachment(string):
-	re.search(r'(Прикрепление #)([0-9]*)( )(.*)?( )(.*)', string)
+def parseAttachments(mesAttachments):
+	string = ''
+	for a in mesAttachments:
+		string += str(a)
+	atInfo = re.search(r'(Прикрепление #)([0-9]*)( )(.*)?( )(.*)', string)
+	print(atInfo)
+	print(string)
+	print()
 
 
 def parseDialogs(name, arr):
@@ -44,10 +50,11 @@ def parseDialogs(name, arr):
 			time = tmp[1]
 			message = message[3]
 			
-			attachments = re.findall(r'(Прикрепление #)(.*)(\))',message)
+			attachments = re.findall(r'(Прикрепление #)(.*\))',message)
 			if len(attachments) > 0:
-				parseAttachment()
-				print(attachments)
+				for at in attachments:
+					parseAttachments(at)
+				#print(attachments)
 
 
 			for i in range(0, len(dialogListAdr)):
