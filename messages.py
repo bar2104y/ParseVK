@@ -1,5 +1,9 @@
 import re
 
+def parseAttachment(string):
+	re.search(r'(Прикрепление #)([0-9]*)( )(.*)?( )(.*)', string)
+
+
 def parseDialogs(name, arr):
 	#диалоги
 	dialogListAdr = []
@@ -39,6 +43,12 @@ def parseDialogs(name, arr):
 			date = tmp[0]
 			time = tmp[1]
 			message = message[3]
+			
+			attachments = re.findall(r'(Прикрепление #)(.*)(\))',message)
+			if len(attachments) > 0:
+				parseAttachment()
+				print(attachments)
+
 
 			for i in range(0, len(dialogListAdr)):
 				if id == dialogListAdr[i]:
