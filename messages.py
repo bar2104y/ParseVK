@@ -4,6 +4,7 @@ from attachments import getPhoto
 def attachmentsType(inputtext):
 	#photo audio wall video sticker doc gift link
 	at = re.search(r'([0-9]*)( )(.*?)( )(.*\))', inputtext)
+	#Костыль, кторый надо как-то решить, ибо вызывает ошибку иногда
 	at = at.group(3) if at != None else 'Error'
 	return(at)
 
@@ -56,12 +57,8 @@ def parseDialogs(name, arr):
 		dialogListData.append([])
 
 	#перебор сообщений, распределение по диалогам
-	'''
-	message : [1, 'https://vk.com/id12565', '13.10.2015 в 17:49:21', 'не хочу об этом говорить']
-
-	'''
-	for message in arr:
-		
+	'''message : [1, 'https://vk.com/id12565', '13.10.2015 в 17:49:21', 'не хочу об этом говорить']'''
+	for message in arr:	
 		if len(message) >= 3:
 			direction = message[0]
 			id = re.search(r'(vk.com\/id)(.*)', message[1])
@@ -70,21 +67,26 @@ def parseDialogs(name, arr):
 			date = tmp[0]
 			time = tmp[1]
 			message = message[3]
+
+			# Костыль, удаляет в конце лишнее
 			message = re.sub(r'Кому:', ' ', message)
 			message = re.sub(r'От кого:', ' ', message)
 
+			# Отделение текста с вложениями
 			attachments = re.findall(r'(Прикрепление #.*)', message)
 			
+			# Если есть вложения.....
 			if len(attachments) > 0:
+				# Перебор вложений
 				for at in attachments:
+					# Форматирование
 					at = re.split(r'(Прикрепление #)', at)
 					for a in at:
+						# Если текст содержит информацию о вложениях, то форматируем их
 						if a != 'Прикрепление #' and a != '':
 							message += '<br> ' + parseAttachments(a)
+			#Удаление текстовой информации о вложении
 			message = re.sub(r'(Прикрепление #[0-9]*)( )(.*?)( )(.*\))', ' ', message)
-			print(date,time, message)
-					
-			
 
 
 			for i in range(0, len(dialogListAdr)):
