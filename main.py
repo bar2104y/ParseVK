@@ -54,15 +54,17 @@ def parseFriends():
 	return Arr
 
 def parseMessages():
+	print('Парсинг сообщений')
 	global vkID
 	line = ''
 	stopString = 'Сообщения, оставленные на стене пользователя https://vk.com/id'+vkID+':\n'
 	
 	Arr = []
 	flag = False
+	#Читаем диалог пока не вылезет флаг или следующий раздел
+	while line != 'От кого:\n' and line != 'Кому:\n' and line != stopString:
+		line = inputFile.readline()
 	while line != stopString and not flag:
-		while line != 'От кого:\n' and line != 'Кому:\n':
-			line = inputFile.readline()
 		# message info 
 		# [direction(0 in; 1 out), userlink, date, message]
 		tmp = []
@@ -71,29 +73,31 @@ def parseMessages():
 		else:
 			tmp.append(1)
 
+		#В этой строке Пользователь
 		line = inputFile.readline()
-		
+		#Вычленение информации о пользователе(кому/от кого сообщение)
 		if re.findall(r'Пользователь',line) != []:
+			isUser = True
 			userlink = re.search(r'(https://vk.com/id)(.*)?', line)
 			userlink = str(userlink.group()).replace(')', '')
-			#print(userlink)
 			tmp.append(userlink)
-			tmp.append(str(inputFile.readline()).replace('\n', ''))
-
-			mes = ''
-			while line != '\n':
-				line = inputFile.readline()
-				if line == stopString:
-					flag = True
-					line = ''
-				mes += line
-			
-			tmp.append(mes.replace('\n', ''))
+			dbg = str(inputFile.readline()).replace('\n', '')
+			tmp.append(dbg)
 		else:
-			while line != '\n':
-				line = inputFile.readline()
-				if line == stopString:
-					flag = True
+			isUser = False
+
+		mes = ''
+		while line != 'От кого:\n' and line != 'Кому:\n':
+			line = inputFile.readline()
+			if line == stopString:
+				#Если другой раздел, то уходим домой
+				flag = True
+				tmp.append(mes.replace('\n', ' '))
+				Arr.append(tmp)
+				return Arr
+			mes += line
+		
+		tmp.append(mes.replace('\n', ' '))
 		Arr.append(tmp)
 	return Arr
 		
@@ -141,7 +145,6 @@ try:
 
 	# Костыль
 	inputFile.readline()
-
 	# Массив с сообщениями
 	# [[direction(0 in; 1 out), userlink, date, message],
 	#  [direction(0 in; 1 out), userlink, date, message]]
@@ -217,6 +220,7 @@ try:
 
 	messagesArd, messagesList = parseDialogs(name, messages)
 
+	print(messagesArd)
 	# На каждого пльзователя своя страница.
 	# Название файла - id собеседника
 	# Сообщения оборачиваются в HTML каркас
